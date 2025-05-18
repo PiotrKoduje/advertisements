@@ -1,0 +1,14 @@
+{
+  "name": "advertisements",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Piotr Pelc <piotrpelc83@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.17.1",
+    "nodemon": "^3.1.10"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
