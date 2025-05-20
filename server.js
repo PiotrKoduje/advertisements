@@ -26,10 +26,12 @@ app.use(session({
   }),
 }));
 
+// ROUTES
 app.use('/auth', authRoutes);
 // app.use('/api', adsRoutes);
 //app.use(session({ secret: 'xyz567', store: MongoStore.create(mongoose.connection)}));
 
+// SERVE STATIC FILES FROM CLIENT
 app.use(express.static(path.join(__dirname, 'client/build')));
 
 // CONNECT TO MONGOOSE
@@ -39,6 +41,15 @@ db.once('open', () => {
   console.log('Connected to local database');
 });
 db.on('error', err => console.log('Error ' + err));
+
+// AT ANY OTHER LINK SERVE CLIENT APP
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build/index.html'));
+});
+
+app.use((req, res) => {
+  res.status(404).json({ message: 'Not found...'});
+});
 
 app.listen(8000, () => {
   console.log('Server is running..');
