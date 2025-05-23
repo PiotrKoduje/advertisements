@@ -14,22 +14,22 @@ const authMiddleware = async (req, res, next) => {
     try {
 
       // find last session record in db
-      const sessionRecord = await Session.findOne({}).lean();
-      // console.log(sessionRecord);
+      const sessionRecord = await Session.findOne({});
+      //console.log('sessionRecord', sessionRecord);
       // console.log(sessionRecord.toObject());
       // console.log(sessionRecord._id);
 
       // if session is not found
       // return 401 status and message
       if (!sessionRecord)
-        return res.status(401).send({ message: 'You are not authorized' });
+        return res.status(401).send({ message: 'You are not authorized' }); // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
       // if session is found, parse it and set user in req.session
       const sessionData = JSON.parse(sessionRecord.session);
       //console.log(sessionData);
       req.session.user = {
-        id: sessionRecord._id,
-        login: sessionData.login,
+        id: sessionData.userId,
+        login: sessionData.login
       }
       //console.log(req.session.user);
 

@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const authMiddleware = require('../utils/authMiddleware');
 const auth = require('../controllers/auth.controller');
-const imageUpload = require('../utils/imageUpload');
+const avatarUpload = require('../utils/avatarUpload');
 
-router.post('/register', imageUpload.single('avatar'), auth.register);
+router.post('/register', avatarUpload.single('avatar'), auth.register);
 router.post('/login', auth.login);
 router.get('/user', authMiddleware, auth.getUser);
 router.post('/logout', authMiddleware, auth.logout);

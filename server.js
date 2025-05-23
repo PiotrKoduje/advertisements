@@ -28,8 +28,8 @@ app.use(session({
 
 // ROUTES
 app.use('/auth', authRoutes);
-// app.use('/api', adsRoutes);
-//app.use(session({ secret: 'xyz567', store: MongoStore.create(mongoose.connection)}));
+app.use('/api', adsRoutes);
+// app.use(session({ secret: 'xyz567', store: MongoStore.create(mongoose.connection)}));
 
 // SERVE STATIC FILES FROM CLIENT
 app.use(express.static(path.join(__dirname, 'client/build')));
@@ -48,7 +48,7 @@ app.get('*', (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).json({ message: 'Not found...'});
+  res.status(404).json({ message: 'Not found....'});
 });
 
 app.listen(8000, () => {
