@@ -16,7 +16,8 @@ app.use(express.json());
 app.use(cors());
 
 // DATA BASE
-const uri = 'mongodb://0.0.0.0:27017/adsDB';
+// const uri = 'mongodb://0.0.0.0:27017/adsDB';
+const uri = 'mongodb+srv://Peter:Programming445@cluster0.aqu9lhb.mongodb.net/Adveerisements?retryWrites=true&w=majority&appName=Cluster0';
 app.use(session({
   secret: 'xyz567',
   resave: false,
