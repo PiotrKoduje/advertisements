@@ -76,6 +76,7 @@ exports.logout = async (req, res) => {
     // await Session.deleteMany({});
     req.session.destroy();
     res.json({ message: 'You were logged out'});
+    console.log('here');
   }
 };
 

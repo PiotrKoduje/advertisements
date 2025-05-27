@@ -11,10 +11,7 @@ const authRoutes = require('./routes/auth.routes');
 const app = express();
 
 // MIDDLEWARE
-app.use(cors({
-  origin: 'http://localhost:3001',
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false}));
 
@@ -47,9 +44,9 @@ db.once('open', () => {
 db.on('error', err => console.log('Error ' + err));
 
 // AT ANY OTHER LINK SERVE CLIENT APP
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '/client/build/index.html'));
-// });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '/client/build/index.html'));
+});
 
 app.use((req, res) => {
   res.status(404).json({ message: 'Not found....'});

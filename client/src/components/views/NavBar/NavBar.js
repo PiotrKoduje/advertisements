@@ -1,10 +1,12 @@
 import { Navbar, Container, Nav, NavbarBrand } from "react-bootstrap";
 import NavbarCollapse from "react-bootstrap/esm/NavbarCollapse";
 import { NavLink } from 'react-router-dom';
+import { useSelector } from "react-redux";
+import { getLoggedUser } from "../../../redux/users.Redux";
 
 const NavBar = () => {
 
-  const flag = false;
+  const loggedUser = useSelector(getLoggedUser);
 
   return (
     <Navbar bg="primary" variant="dark" expand="md" className="rounded-2 mt-2 mb-4">
@@ -14,8 +16,12 @@ const NavBar = () => {
         <Navbar.Collapse id="main-navbar">
           <Nav className="ms-auto">
             <Nav.Link as={NavLink} to="/">Home</Nav.Link>
-            {flag ? (
+        
+            {loggedUser ? (
+              <>
+              <Nav.Link as={NavLink} to="/ad/add">Add ad</Nav.Link>
               <Nav.Link as={NavLink} to="/logout">Sign out</Nav.Link>
+              </>
             ) : (
               <>
                 <Nav.Link as={NavLink} to="/login">Sign in</Nav.Link>

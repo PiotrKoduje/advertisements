@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Form, Button, Alert, Spinner} from "react-bootstrap";
 import { API_URL } from "../../../config";
 import { useNavigate } from "react-router-dom";
@@ -12,8 +12,12 @@ const Register = () => {
   const [avatar, setAvatar] = useState(null);
   const [status, setStatus] = useState(null); // null, 'loading', 'success', 'loginError', 'serverError', 'clientError'
 
-  const loginInputRef = useRef(null);
+  const loginInputRef = useRef();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    loginInputRef.current.focus();
+  }, []);
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -48,10 +52,15 @@ const Register = () => {
         loginInputRef.current.focus();
       } else {
         setStatus('serverError');
+        setLogin('');
+        setPassword('');
+        setPhone('');
+        setAvatar(null);
+        loginInputRef.current.focus();
       }
     })
     .catch(err => {
-      console.log(err.message);
+      setStatus('serverError');
     })
   };
 
@@ -85,19 +94,40 @@ const Register = () => {
 
       <Form.Group className="mb-3" controlId="formLogin">
         <Form.Label>Login</Form.Label>
-        <Form.Control type="text" value={login} onChange={e => setLogin(e.target.value)} placeholder="Enter login" ref={loginInputRef} />
+        <Form.Control 
+          type="text" 
+          value={login} 
+          onChange={e => setLogin(e.target.value)} 
+          placeholder="Enter login" 
+          ref={loginInputRef}
+          autoComplete="off" 
+        />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formPassword">
         <Form.Label>Password</Form.Label>
-        <Form.Control type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
+        <Form.Control 
+          type="password" 
+          value={password} 
+          onChange={e => setPassword(e.target.value)} 
+          placeholder="Password"
+        />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formPhone">
         <Form.Label>Phone number</Form.Label>
-        <Form.Control type="tel" value={phone} onChange={e => setPhone(e.target.value)} placeholder="Phone number" />
+        <Form.Control 
+          type="tel"
+          value={phone} 
+          onChange={e => setPhone(e.target.value)}
+          placeholder="Phone number" 
+          autoComplete="off"
+        />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formFile">
         <Form.Label>Avatar</Form.Label>
-        <Form.Control type="file" onChange={e => setAvatar(e.target.files[0])}/>
+        <Form.Control
+         type="file" 
+         onChange={e => setAvatar(e.target.files[0])}
+        />
       </Form.Group>
     <Button variant="primary" type="submit">Submit</Button>
     </Form>
