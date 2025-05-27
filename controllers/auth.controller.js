@@ -23,7 +23,7 @@ exports.register = async (req, res) => {
       } else {
          const user = new User({ login, pass: hashedPass, avatar: req.file.filename, phone });
          await user.save();
-         res.json({ message: 'User added: ' + login});
+         res.status(201).json({ message: 'User added: ' + login});
       }
     } else {
       try {
