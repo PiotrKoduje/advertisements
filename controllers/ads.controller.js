@@ -50,8 +50,7 @@ exports.searchAds = async (req, res) => {
     select: 'login avatar phone -_id'
   });
   const result = prepareForClient(data, false);
-  //console.log(data.length)
-  res.json(result);
+  res.status(200).json(result);
 };
 
 exports.addNew = async (req, res) => {
@@ -64,7 +63,9 @@ exports.addNew = async (req, res) => {
 
     // console.log('title: ', (title && typeof title === 'string') ? 'ok' : 'not ok');
     // console.log('content: ', (content && typeof content === 'string') ? 'ok' : 'not ok');
+    // console.log('price: ', (priceAsNumber && typeof priceAsNumber  === 'number' && priceAsNumber > 0) ? 'ok' : 'not ok');
     // console.log('location: ', (location && typeof location === 'string') ? 'ok' : 'not ok');
+    // console.log('file: ', ((req.file && ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) &&(req.file && req.file.size < 2 * 1024 * 1024)) ? 'ok' : 'not ok');
 
     if ((title && typeof title === 'string') &&
     (content && typeof content === 'string') &&
@@ -84,11 +85,11 @@ exports.addNew = async (req, res) => {
       });
       await data.save();
       const result = prepareForClient(data);
-      res.json(result);
+      res.status(201).json(result);
     } else {
       try {
         if (req.file){
-          const photoFile = path.join(__dirname, '../public/uploads/photoes/', req.file.filename);
+          const photoFile = path.join(__dirname, '../public/uploads/photos/', req.file.filename);
           if (photoFile) await fs.unlink(photoFile);
         }
         res.status(400).json({ message: 'Bad request' });
@@ -115,8 +116,7 @@ exports.updateById = async (req, res) => {
       console.log('Bad ad');
       return res.status(404).json({ message: 'Not found' });
     }
-
-    // ONLY FOR AN OWNER
+    // ONLY FOR THE OWNER
     if (req.session.user.id !== ad.userId) 
       return res.status(403).json({ message: 'Access denied: you are not the owner of this ad.' });
 
@@ -160,19 +160,19 @@ exports.updateById = async (req, res) => {
     if (req.file) {
       const fileType = await getImageFileType(req.file);
       if ((['image/png', 'image/jpeg', 'image/gif'].includes(fileType)) && (req.file.size < 2 * 1024 * 1024)) {
-        const oldPhotoFile = path.join(__dirname, '../public/uploads/photoes/', ad.photo);
+        const oldPhotoFile = path.join(__dirname, '../public/uploads/photos/', ad.photo);
         await fs.unlink(oldPhotoFile);
         ad.photo = req.file.filename;
       } else {
         console.log('Bad photo');
-        const badPhotoFile = path.join(__dirname, '../public/uploads/photoes/', req.file.filename);
+        const badPhotoFile = path.join(__dirname, '../public/uploads/photos/', req.file.filename);
           if (badPhotoFile) await fs.unlink(badPhotoFile);
         return res.status(400).json({ message: 'Bad request' });
       }
     }
     
     await ad.save();
-    res.json(prepareForClient(ad));
+    res.status(200).json(prepareForClient(ad));
   } catch {
     res.status(500).json({ message: err.message });
   }
@@ -184,18 +184,19 @@ exports.deleteById = async (req, res) => {
   }
   try {
     const ad = await Ad.findById(req.params.id);
-
-    if (!ad) return res.status(404).json({ message: 'Not found' });
+    
+    if (!ad){
+      return res.status(404).json({ message: 'Not found' });
+    }
     else {
-      // ONLY FOR AN OWNER
+      // ONLY FOR THE OWNER
       if (req.session.user.id !== ad.userId) 
       return res.status(403).json({ message: 'Access denied: you are not the owner of this ad.' });
-
       const dataToRemove = await Ad.deleteOne({ _id: req.params.id });
-      const photoFile = path.join(__dirname, '../public/uploads/photoes/', ad.photo);
+      const photoFile = path.join(__dirname, '../public/uploads/photos/', ad.photo);
       if (photoFile) await fs.unlink(photoFile);
       const result = prepareForClient(ad);
-      res.json(result);
+      res.status(200).json(result);
     }
   } catch (err) {
     res.status(500).json({ message: err.message });

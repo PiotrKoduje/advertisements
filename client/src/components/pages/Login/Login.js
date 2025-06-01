@@ -5,14 +5,12 @@ import { useDispatch } from 'react-redux';
 import { logIn } from "../../../redux/users.Redux";
 import { useNavigate } from "react-router-dom";
 
-
-
 const Login = () => {
 
 // LOCAL STATE
 const [login, setLogin] = useState('');
 const [password, setPassword] = useState('');
-const [status, setStatus] = useState(null); // null, 'loading', 'success', 'serverError', 'clientError'
+const [status, setStatus] = useState(''); // null, 'loading', 'success', 'serverError', 'clientError'
 
 const loginInputRef = useRef();
 const dispatch = useDispatch();
@@ -51,11 +49,9 @@ const handleSubmit = e => {
   })
 };
 
-
   return(
     <Form className="col-12 col-sm-3 mx-auto" onSubmit={handleSubmit} encType="multipart/form-data">
       <h1 className="my-4">Sign in</h1>
-
 
       { status === 'success' && <Alert variant="success">
         <Alert.Heading>Success!</Alert.Heading>
@@ -76,8 +72,6 @@ const handleSubmit = e => {
         <span className="visually-hidden" >Loading...</span>
       </Spinner>}
 
-
-
       <Form.Group className="mb-3" controlId="formLogin">
         <Form.Label>Login</Form.Label>
         <Form.Control 
@@ -96,11 +90,14 @@ const handleSubmit = e => {
           type="password" 
           value={password}
           onChange={e => setPassword(e.target.value)}
-          placeholder="Password" 
+          placeholder="Password"
+          autoComplete="off" 
         />
       </Form.Group>
 
-    <Button variant="primary" type="submit">Submit</Button>
+      <Button variant="primary" type="submit" disabled={status === 'loading'}>
+        {status === 'loading' ? 'Logging in...' : 'Log in'}
+      </Button>
     </Form>
   )
 };

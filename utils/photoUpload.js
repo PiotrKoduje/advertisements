@@ -2,7 +2,7 @@ const multer = require('multer');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, './public/uploads/photoes');
+    cb(null, './public/uploads/photos');
   },
   filename: (req, file, cb) => {
     const [name, ext] = file.originalname.split('.');
@@ -10,8 +10,8 @@ const storage = multer.diskStorage({
   }
 });
 
-  const avatarUpload = multer({ 
-    storage,
-   });
+const avatarUpload = multer({ 
+  storage,
+  });
 
 module.exports = avatarUpload;

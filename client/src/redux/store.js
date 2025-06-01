@@ -1,5 +1,4 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-import initialState from "./initialState";
 import adsReducer from "./adsRedux";
 import usersReducer from "./users.Redux";
 import { thunk } from "redux-thunk";
@@ -13,7 +12,7 @@ const reducer = combineReducers(subreducers);
 
 const store = createStore(
   reducer,
-  initialState,
+  //initialState,
   compose(
     applyMiddleware(thunk),
     window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()

@@ -1,3 +1,4 @@
+import styles from '../AdAdd/AdAdd.module.scss';
 import { useState, useRef, useEffect } from "react";
 import { Form, Button, Alert, Spinner} from "react-bootstrap";
 import { API_URL } from "../../../config";
@@ -10,7 +11,7 @@ const Register = () => {
   const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
   const [avatar, setAvatar] = useState(null);
-  const [status, setStatus] = useState(null); // null, 'loading', 'success', 'loginError', 'serverError', 'clientError'
+  const [status, setStatus] = useState(''); // null, 'loading', 'success', 'loginError', 'serverError', 'clientError'
 
   const loginInputRef = useRef();
   const navigate = useNavigate();
@@ -22,17 +23,12 @@ const Register = () => {
   const handleSubmit = e => {
     e.preventDefault();
 
-    
     const fd = new FormData();
     fd.append('login', login);
     fd.append('pass', password);
     fd.append('phone', phone);
     fd.append('avatar', avatar);
     
-    // for (let [key, value] of fd.entries()) {
-    //   console.log(`${key}: ${value}`);
-    // }
-
     const options = {
       method: 'POST',
       body: fd
@@ -43,7 +39,7 @@ const Register = () => {
     .then( res => {
       if (res.status === 201) {
         setStatus('success');
-        navigate('/');
+        navigate('/ads/confirmation/newUser');
       } else if (res.status === 400) {
         setStatus('clientError');
       } else if (res.status === 409) {
@@ -123,13 +119,16 @@ const Register = () => {
         />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formFile">
-        <Form.Label>Avatar</Form.Label>
+        <Form.Label>Avatar <span className={styles.sizeInfo}>(Max size: 512KB)</span></Form.Label>
         <Form.Control
          type="file" 
          onChange={e => setAvatar(e.target.files[0])}
         />
       </Form.Group>
-    <Button variant="primary" type="submit">Submit</Button>
+
+      <Button variant="primary" type="submit" disabled={status === 'loading'}>
+        {status === 'loading' ? 'Signing in...' : 'Sign in'}
+      </Button>
     </Form>
   )
 };

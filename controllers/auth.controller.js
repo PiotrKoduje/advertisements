@@ -52,8 +52,9 @@ exports.login = async (req, res) => {
       }
       else {
         if (bcrypt.compareSync(pass, user.pass)) {
-          req.session.login = user.login;
-          req.session.userId = user.id;
+          req.session.user = {};
+          req.session.user.login = user.login;
+          req.session.user.id = user.id;
           res.status(200).json({ message: 'Login successful'});
         } else {
           res.status(400).json({ message: 'Login or password are incorrect' });
@@ -67,16 +68,20 @@ exports.login = async (req, res) => {
   }
 };
 
-exports.getUser = async (req, res) => {
-  res.json({ message: 'Yeah, I\'m logged as ' + req.session.user.login});
+exports.checkUser = async (req, res) => {
+    res.status(200).json({ 
+      message: 'Yeah, I\'m logged as ' + req.session.user.login,
+      loggedUser: req.session.user.login 
+  });
+};
+
+exports.doNothing = async (req, res) => {
+  console.log('Logged as: ',req.session.user.login, 'I have just gonne throught authMiddleware');
+  res.json({ message: 'okk'});
 };
 
 exports.logout = async (req, res) => {
-  if (process.env.NODE_ENV !== "production"){
-    // await Session.deleteMany({});
-    req.session.destroy();
-    res.json({ message: 'You were logged out'});
-    console.log('here');
-  }
+  req.session.destroy();
+  res.json({ message: 'You were logged out'});
 };
 

@@ -6,7 +6,8 @@ const avatarUpload = require('../utils/avatarUpload');
 
 router.post('/register', avatarUpload.single('avatar'), auth.register);
 router.post('/login', auth.login);
-router.get('/user', authMiddleware, auth.getUser);
+router.get('/user', authMiddleware, auth.checkUser);
+router.get('/doNothing', authMiddleware, auth.doNothing);
 router.post('/logout', authMiddleware, auth.logout);
 
 module.exports = router;

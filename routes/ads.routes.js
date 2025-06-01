@@ -9,6 +9,6 @@ router.get('/ads/:id', ads.getById);
 router.get('/ads/search/:phrase', ads.searchAds);
 router.post('/ads', authMiddleware, photoUpload.single('photo'), ads.addNew);
 router.patch('/ads/:id', authMiddleware, photoUpload.single('photo'), ads.updateById);
-router.delete('/ads/:id', ads.deleteById);
+router.delete('/ads/:id', authMiddleware, ads.deleteById);
 
 module.exports = router;

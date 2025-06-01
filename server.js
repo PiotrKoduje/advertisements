@@ -20,20 +20,20 @@ app.use(express.urlencoded({ extended: false}));
 const uri = 'mongodb+srv://Peter:Programming445@cluster0.aqu9lhb.mongodb.net/Adveerisements?retryWrites=true&w=majority&appName=Cluster0';
 app.use(session({
   secret: 'xyz567',
-  resave: false,
+  resave: true,
   saveUninitialized: false,
   store: MongoStore.create({
     mongoUrl: uri
-  }),
+  }), 
 }));
 
 // ROUTES
 app.use('/auth', authRoutes);
 app.use('/api', adsRoutes);
-// app.use(session({ secret: 'xyz567', store: MongoStore.create(mongoose.connection)}));
 
 // SERVE STATIC FILES FROM CLIENT
 app.use(express.static(path.join(__dirname, 'client/build')));
+app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 // CONNECT TO MONGOOSE
 mongoose.connect(uri, { useNewUrlParser: true });
