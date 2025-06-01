@@ -52,6 +52,7 @@ app.use((req, res) => {
   res.status(404).json({ message: 'Not found....'});
 });
 
-app.listen(8000, () => {
-  console.log('Server is running..');
+const PORT = process.env.PORT || 8000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

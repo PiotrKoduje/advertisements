@@ -22,7 +22,7 @@ export const logOut = () => ({
 export const checkUser = () => {
   return async (dispatch) => {
     try {
-      const res = await fetch(`${API_URL}/auth/user`);
+      const res = await fetch(`${API_URL}/auth/user`, { credentials: 'include' });
       if (res.status === 200) {
         const data = await res.json();
         dispatch(logIn(data.loggedUser));

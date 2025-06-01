@@ -53,7 +53,7 @@ export const adAddRequest = (fd) => {
 
     dispatch(startRequest({ name: 'ADD_AD'}));
     try {
-      const res = await fetch(`${API_URL}/api/ads`, { method: 'POST', body: fd });
+      const res = await fetch(`${API_URL}/api/ads`, { method: 'POST', body: fd, credentials: 'include'});
       if (res.status === 201) {
         dispatch(endRequest({ name: 'ADD_AD' }));
         dispatch(addAd(res));
@@ -74,7 +74,7 @@ export const editAdRequest = (fd, id) => {
 
     dispatch(startRequest({ name: 'EDIT_AD' }));
     try{
-      const res = await fetch(`${API_URL}/api/ads/${id}`, { method: 'PATCH', body: fd });
+      const res = await fetch(`${API_URL}/api/ads/${id}`, { method: 'PATCH', body: fd, credentials: 'include'});
       console.log('')
       if (res.status === 200) {
         dispatch(endRequest({ name: 'EDIT_AD' }));
@@ -97,7 +97,7 @@ export const deleteAdRequest = (id) => {
 
     dispatch(startRequest({ name: 'DELETE_AD'}));
     try{
-      const res = await fetch(`${API_URL}/api/ads/${id}`, { method: 'DELETE'});
+      const res = await fetch(`${API_URL}/api/ads/${id}`, { method: 'DELETE', credentials: 'include'});
       if (res.status === 200){
         dispatch(endRequest({ name: 'DELETE_AD' }));
         dispatch(deleteAd(id));
