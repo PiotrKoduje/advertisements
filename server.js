@@ -11,7 +11,10 @@ const authRoutes = require('./routes/auth.routes');
 const app = express();
 
 // MIDDLEWARE
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false}));
 
@@ -39,7 +42,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 mongoose.connect(uri, { useNewUrlParser: true });
 const db = mongoose.connection;
 db.once('open', () => {
-  console.log('Connected to local database');
+  console.log('Connected to MongoDB Altas');
 });
 db.on('error', err => console.log('Error ' + err));
 

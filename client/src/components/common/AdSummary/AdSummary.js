@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
+import { API_URL } from '../../../config';
 import { Link } from 'react-router-dom';
 
 function AdSummary({ id, title,content, photo, location }) {
@@ -8,7 +9,7 @@ function AdSummary({ id, title,content, photo, location }) {
       
       <div className="d-flex justify-content-center align-items-center" style={{ height: '50%', overflow: 'hidden' }}>
         <img
-          src={`http://localhost:8000/uploads/photos/${photo}`}
+          src={`${API_URL}/uploads/photos/${photo}`}
           alt={title}
           className="img-fluid"
           style={{ maxHeight: '100%', objectFit: 'contain' }}

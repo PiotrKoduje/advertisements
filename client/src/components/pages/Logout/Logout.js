@@ -10,7 +10,8 @@ const Logout = () => {
 
   useEffect(() => {
     const options = {
-      method: 'POST'
+      method: 'POST',
+      credentials: 'include'
     }
   
     fetch(`${API_URL}/auth/logout`, options)

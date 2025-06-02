@@ -31,7 +31,8 @@ const Register = () => {
     
     const options = {
       method: 'POST',
-      body: fd
+      body: fd,
+      credentials: 'include'
     };
 
     setStatus('loading');

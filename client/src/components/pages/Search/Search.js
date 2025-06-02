@@ -28,7 +28,7 @@ const Search = () => {
 
   const search = async () => {
     try {
-      const res = await fetch(`${API_URL}/api/ads/search/${Phrase}`);
+      const res = await fetch(`${API_URL}/api/ads/search/${Phrase}`, { credentials: 'include' });
       if (res.status === 200) {
         const data = await res.json(); 
         setAds(data); 

@@ -75,11 +75,6 @@ exports.checkUser = async (req, res) => {
   });
 };
 
-exports.doNothing = async (req, res) => {
-  console.log('Logged as: ',req.session.user.login, 'I have just gonne throught authMiddleware');
-  res.json({ message: 'okk'});
-};
-
 exports.logout = async (req, res) => {
   req.session.destroy();
   res.json({ message: 'You were logged out'});

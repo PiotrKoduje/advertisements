@@ -1,5 +1,6 @@
 import { Card, Button, Row, Col, Image } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { API_URL } from "../../../config";
 import { useSelector } from "react-redux";
 import { getLoggedUser } from "../../../redux/users.Redux";
 import { useState, useEffect } from "react";
@@ -24,7 +25,7 @@ const AdDetails = ({ id, title, content, date, photo, price, location, userId: {
     
     <Card.Img
       variant="top"
-      src={`http://localhost:8000/uploads/photos/${photo}`}
+      src={`${API_URL}/uploads/photos/${photo}`}
       alt={title}
       style={{ maxHeight: '400px', objectFit: 'contain', backgroundColor: '#f8f9fa' }}
     />
@@ -37,7 +38,7 @@ const AdDetails = ({ id, title, content, date, photo, price, location, userId: {
       <Row className="mb-3 align-items-center">
         <Col xs="auto">
           <Image
-            src={`http://localhost:8000/uploads/avatars/${avatar}`}
+            src={`${API_URL}/uploads/avatars/${avatar}`}
             style={{ width: '60px', height: '60px', objectFit: 'cover' }}
             className="rounded-2 border"
             alt={login}

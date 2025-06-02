@@ -25,6 +25,7 @@ const handleSubmit = e => {
 
   const options = {
     method: 'POST',
+    credentials: 'include',
     headers: {
       'Content-Type': 'application/json'
     },

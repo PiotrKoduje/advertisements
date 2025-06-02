@@ -10,16 +10,17 @@ const AdConfirmation = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       switch (type) {
-        case 'edit':
-          navigate(-2);
+        case "newUser":
+          navigate("/login");
           break;
-        case 'newUser':
-          navigate('/login');
-          break;
-          case 'add':
-          case 'delete':
+        // case "edit":
+        //   navigate(-2);
+        //   break;
+        case "edit":
+        case "add":
+        case "delete":
         default:
-          navigate('/');
+          navigate("/");
       }
        
     }, 2000);

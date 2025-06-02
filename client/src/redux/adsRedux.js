@@ -36,7 +36,7 @@ export const loadAdsRequest = () => {
 
     dispatch(startRequest({ name: 'LOAD_ADS'}));
     try {
-      const res = await fetch(`${API_URL}/api/ads`);
+      const res = await fetch(`${API_URL}/api/ads`, { credentials: 'include' });
       if (res.status === 200) {
         const ads = await res.json();
         dispatch(loadAds(ads));
