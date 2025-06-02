@@ -45,38 +45,60 @@ exports.register = async (req, res) => {
 exports.login = async (req, res) => {
   try {
     const { login, pass } = req.body;
-    if (login && typeof login === 'string' && pass && typeof pass === 'string') {
-      const user = await User.findOne({ login })
+    if ( login && typeof login === "string" && pass && typeof pass === "string") {
+      const user = await User.findOne({ login });
       if (!user) {
-        res.status(400).json({ message: 'Login or password are incorrect' });
-      }
-      else {
+        res.status(400).json({ message: "Login or password are incorrect" });
+      } else {
         if (bcrypt.compareSync(pass, user.pass)) {
           req.session.user = {};
           req.session.user.login = user.login;
           req.session.user.id = user.id;
-          res.status(200).json({ message: 'Login successful'});
+          // console.log("req.session at login:", req.session);
+          // console.log("req.sessionID at login:", req.sessionID);
+          req.session.save();
+          console.log("Session at login:", req.session);
+          res.status(200).json({ message: "Login successful" });
         } else {
-          res.status(400).json({ message: 'Login or password are incorrect' });
+          res.status(400).json({ message: "Login or password are incorrect" });
         }
       }
     } else {
-      res.status(400).json({ message: 'Bad request' });
+      res.status(400).json({ message: "Bad request" });
     }
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
 };
 
-exports.checkUser = async (req, res) => {
-    res.status(200).json({ 
-      message: 'Yeah, I\'m logged as ' + req.session.user.login,
-      loggedUser: req.session.user.login 
+exports.checkUser = (req, res) => {
+  // console.log("req.session at checkUser:", req.session);
+  // console.log("req.sessionID at checkUser:", req.sessionID);
+  if (!req.session.user) {
+    return res.status(401).json({ message: "Not authorized" });
+  }
+
+  res.status(200).json({
+    message: `Logged in as ${req.session.user.login}`,
+    loggedUser: req.session.user.login,
   });
 };
 
-exports.logout = async (req, res) => {
-  req.session.destroy();
-  res.json({ message: 'You were logged out'});
+exports.logout = (req, res) => {
+  // console.log("req.session at logout:", req.session);
+  // console.log("req.sessionID at logout:", req.sessionID);
+  req.session.destroy((err) => {
+    if (err) {
+      console.error("Logout error:", err);
+      return res.status(500).json({ message: "Logout failed" });
+    }
+    res.clearCookie("connect.sid", {
+      path: "/",
+      secure: true,
+      sameSite: "none",
+    }); 
+
+    return res.json({ message: "You were logged out" });
+  });
 };
 

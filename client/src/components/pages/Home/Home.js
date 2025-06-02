@@ -3,23 +3,23 @@ import AdSummary from "../../common/AdSummary/AdSummary"
 import { Container, Alert, Spinner } from "react-bootstrap";
 import { useSelector, useDispatch } from "react-redux";
 import { getAds, getRequests, loadAdsRequest } from "../../../redux/adsRedux";
-import { useEffect } from "react";
+import { checkUser } from '../../../redux/users.Redux';
 import SearchBar from '../../common/SearchBar/SearchBar';
+import { useEffect } from "react";
 
 const Home = () => {
+  // const dispatch = useDispatch();
 
-  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(loadAdsRequest());
+  //   dispatch(checkUser());
+
+  //   const interval = setInterval(() => {
+  //     dispatch(loadAdsRequest());
+  //   }, 120000);
+  //   return () => clearInterval(interval);
+  // }, [dispatch]);
   
-  useEffect(() => {
-    dispatch(loadAdsRequest());
-
-    const interval = setInterval(() => {
-      dispatch(loadAdsRequest());
-    }, 60000);
-    return () => clearInterval(interval);
-
-  }, [dispatch]);
-
   const ads = useSelector(getAds);
   const requests = useSelector(getRequests);
  

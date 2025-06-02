@@ -14,16 +14,22 @@ import AdConfirmation from './components/common/AdConfirmation/AdConfirmation';
 import NotFound from './components/pages/NotFound/NotFound';
 import Search from './components/pages/Search/Search';
 import { useDispatch } from 'react-redux';
+import { loadAdsRequest } from "./redux/adsRedux";
 import { checkUser } from './redux/users.Redux';
 import { useEffect } from 'react';
 
 function App() {
+  const dispatch = useDispatch();
 
-const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(loadAdsRequest());
+    dispatch(checkUser());
 
-useEffect(() => {
-  dispatch(checkUser());
-}, [dispatch]);
+    const interval = setInterval(() => {
+      dispatch(loadAdsRequest());
+    }, 120000);
+    return () => clearInterval(interval);
+  }, [dispatch]);
 
   return (
     <Container>
